@@ -8,14 +8,14 @@ import jwt from "jsonwebtoken";
 */
 const generateAccessToken = (user: IUser) => {
   return jwt.sign(
-    { id: user._id, email: user.email },
-    process.env.JWT_SECRET as string,
+    { id: user._id, email: user.email, role: user.role },
+    process.env.JWT_ACCESS_SECRET as string,
     { expiresIn: "15m" },
   );
 };
 
 const generateRefreshToken = (user: IUser) => {
-  return jwt.sign({ id: user._id }, process.env.JWT_SECRET as string, {
+  return jwt.sign({ id: user._id }, process.env.JWT_REFRESH_SECRET as string, {
     expiresIn: "7d",
   });
 };
@@ -67,7 +67,7 @@ export const register = async (req: Request, res: Response) => {
 
     res.status(201).json({
       message: "User registered",
-      user: { id: user._id, name: user.name, email: user.email },
+      user: { id: user._id, name: user.name, email: user.email, role: user.role },
     });
   } catch (error) {
     console.log("error", error);
@@ -115,9 +115,9 @@ export const login = async (req: Request, res: Response) => {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.json({
+    res.status(200).json({
       message: "Login Successful",
-      user: { id: user._id, name: user.name, email: user.email },
+      user: { id: user._id, name: user.name, email: user.email, role: user.role },
     });
   } catch (error) {
     res.status(500).json({ message: "Login Error" });
@@ -143,7 +143,7 @@ export const refreshToken = async (req: Request, res: Response) => {
 
     jwt.verify(
       token,
-      process.env.JWT_SECRET as string,
+      process.env.JWT_REFRESH_SECRET as string,
       (err: jwt.VerifyErrors | null) => {
         if (err) {
           return res.status(403).json({ message: "Invalid Refresh Token" });
@@ -194,17 +194,3 @@ export const logout = async (req: Request, res: Response) => {
   }
 };
 
-/*
-    Get current user profile
-*/
-export const getMe = async (req: any, res: Response) => {
-  try {
-    const user = await User.findById(req.user.id).select("-password -refreshToken");
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: "Can't Get User Profile Error" });
-  }
-};

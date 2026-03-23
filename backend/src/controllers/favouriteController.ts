@@ -16,6 +16,16 @@ export const addFavourite = async (req: AuthRequest, res: Response) => {
       return;
     }
 
+    if (!mongoose.Types.ObjectId.isValid(propertyId as string)) {
+      res.status(400).json({ message: "Invalid Property ID" });
+      return;
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(req.user!.id)) {
+        res.status(401).json({ message: "Invalid User ID in token" });
+        return;
+    }
+
     const existingFavourite = await Favourite.findOne({
       userId: new mongoose.Types.ObjectId(req.user!.id),
       propertyId: new mongoose.Types.ObjectId(propertyId as string),
@@ -44,6 +54,11 @@ export const addFavourite = async (req: AuthRequest, res: Response) => {
 */
 export const getFavourites = async (req: AuthRequest, res: Response) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.user!.id)) {
+      res.status(401).json({ message: "Invalid User ID in token" });
+      return;
+    }
+
     const favourites = await Favourite.find({
       userId: new mongoose.Types.ObjectId(req.user!.id),
     }).populate("propertyId");
@@ -65,6 +80,16 @@ export const removeFavourite = async (req: AuthRequest, res: Response) => {
       return;
     }
 
+    if (!mongoose.Types.ObjectId.isValid(propertyId as string)) {
+      res.status(400).json({ message: "Invalid Property ID" });
+      return;
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(req.user!.id)) {
+      res.status(401).json({ message: "Invalid User ID in token" });
+      return;
+    }
+
     await Favourite.findOneAndDelete({
       userId: new mongoose.Types.ObjectId(req.user!.id),
       propertyId: new mongoose.Types.ObjectId(propertyId as string),
@@ -80,6 +105,11 @@ export const removeFavourite = async (req: AuthRequest, res: Response) => {
 */
 export const clearFavourites = async (req: AuthRequest, res: Response) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.user!.id)) {
+      res.status(401).json({ message: "Invalid User ID in token" });
+      return;
+    }
+
     await Favourite.deleteMany({
       userId: new mongoose.Types.ObjectId(req.user!.id),
     });

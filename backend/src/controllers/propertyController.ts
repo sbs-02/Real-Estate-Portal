@@ -6,7 +6,7 @@ import Property from "../models/Property.js";
 */
 export const getProperties = async (req: Request, res: Response) => {
   try {
-    const { city, minPrice, maxPrice, type } = req.query;
+    const { city, minPrice, maxPrice, type, listingType, page = 1, limit = 10 } = req.query;
     
     let query: any = { status: "active" };
 
@@ -14,9 +14,26 @@ export const getProperties = async (req: Request, res: Response) => {
     if (minPrice) query.price = { ...query.price, $gte: Number(minPrice) };
     if (maxPrice) query.price = { ...query.price, $lte: Number(maxPrice) };
     if (type) query.propertyType = type;
+    if (listingType) query.listingType = listingType;
 
-    const properties = await Property.find(query).sort({ createdAt: -1 });
-    res.json(properties);
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const properties = await Property.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit));
+
+    const total = await Property.countDocuments(query);
+
+    res.json({
+      properties,
+      pagination: {
+        total,
+        page: Number(page),
+        limit: Number(limit),
+        totalPages: Math.ceil(total / Number(limit)),
+      },
+    });
   } catch (error) {
     res.status(500).json({ message: "Could not fetch properties" });
   }

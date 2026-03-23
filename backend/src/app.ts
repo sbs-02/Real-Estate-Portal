@@ -10,7 +10,7 @@ const app = express();
 //For frontend and backend on different ports to communicate
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:5173"], // Frontend URLs
+    origin: process.env.CORS_ORIGIN || "http://localhost:5175", // Frontend URL 
     credentials: true,
   }),
 );
