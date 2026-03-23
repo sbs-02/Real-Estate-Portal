@@ -6,16 +6,9 @@ import Property from "../models/Property.js";
 */
 export const getProperties = async (req: Request, res: Response) => {
   try {
-    const { city, minPrice, maxPrice, type, listingType, page = 1, limit = 10 } = req.query;
-    
-    let query: any = { status: "active" };
+    const { page = 1, limit = 10 } = req.query;
 
-    if (city) query["location.city"] = city;
-    if (minPrice) query.price = { ...query.price, $gte: Number(minPrice) };
-    if (maxPrice) query.price = { ...query.price, $lte: Number(maxPrice) };
-    if (type) query.propertyType = type;
-    if (listingType) query.listingType = listingType;
-
+    const query: any = { status: "active" };
     const skip = (Number(page) - 1) * Number(limit);
 
     const properties = await Property.find(query)

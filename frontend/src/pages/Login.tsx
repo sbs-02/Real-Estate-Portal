@@ -1,0 +1,87 @@
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthLayout from '../layouts/AuthLayout';
+import api from '../api/axiosInstance';
+import { useAuthStore } from '../context/authStore';
+import toast from 'react-hot-toast';
+
+const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { setUser } = useAuthStore();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const { data } = await api.post('/auth/login', { email, password });
+      setUser(data.user);
+      toast.success('Welcome back!');
+      navigate('/dashboard');
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || 'Login failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <AuthLayout
+      side="left"
+      welcomeTitle="Welcome back."
+      welcomeDescription="Sign in to browse exclusive listings tailored just for you."
+    >
+      <div className="space-y-8">
+        <div className="space-y-1">
+          <h2 className="text-2xl font-bold text-white">Sign In</h2>
+          <p className="text-brand-muted text-sm">Enter your credentials to continue</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold uppercase tracking-wider text-brand-muted">Email</label>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full bg-brand-800 border border-brand-600 rounded-lg px-4 py-3 text-white placeholder-brand-500 focus:outline-none focus:border-white transition-colors text-sm"
+              placeholder="e.g. eddie@gmail.com"
+            />
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold uppercase tracking-wider text-brand-muted">Password</label>
+            <input
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full bg-brand-800 border border-brand-600 rounded-lg px-4 py-3 text-white placeholder-brand-500 focus:outline-none focus:border-white transition-colors text-sm"
+              placeholder="••••••••"
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-brand-light transition-all duration-200 disabled:opacity-50 text-sm"
+          >
+            {loading ? 'Signing in...' : 'Sign In'}
+          </button>
+        </form>
+
+        <p className="text-center text-brand-muted text-sm">
+          New to the Estate-Portal?{' '}
+          <Link to="/register" className="text-white font-semibold hover:underline">
+            Create an account
+          </Link>
+        </p>
+      </div>
+    </AuthLayout>
+  );
+};
+
+export default Login;

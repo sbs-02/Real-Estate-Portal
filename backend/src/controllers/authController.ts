@@ -31,7 +31,7 @@ export const register = async (req: Request, res: Response) => {
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({ message: "Email already taken" });
     }
 
     //Hash the password
@@ -67,7 +67,12 @@ export const register = async (req: Request, res: Response) => {
 
     res.status(201).json({
       message: "User registered",
-      user: { id: user._id, name: user.name, email: user.email, role: user.role },
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
     console.log("error", error);
@@ -117,7 +122,12 @@ export const login = async (req: Request, res: Response) => {
 
     res.status(200).json({
       message: "Login Successful",
-      user: { id: user._id, name: user.name, email: user.email, role: user.role },
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
     });
   } catch (error) {
     res.status(500).json({ message: "Login Error" });
@@ -193,4 +203,3 @@ export const logout = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Logout Error" });
   }
 };
-

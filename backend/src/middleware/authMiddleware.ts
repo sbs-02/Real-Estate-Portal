@@ -24,10 +24,11 @@ export const authMiddleware = (
 
     const decoded = jwt.verify(
       token as string,
-      process.env.JWT_SECRET as string,
+      process.env.JWT_ACCESS_SECRET as string,
     ) as {
       id: string;
       email: string;
+      role: string;
     };
 
     req.user = { id: decoded.id, email: decoded.email };
