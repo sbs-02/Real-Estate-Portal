@@ -20,7 +20,7 @@ A premium, modern real estate portal built with Typescript + React with Vite for
    ```bash
    cd backend
    ```
-2. Install dependencies:c
+2. Install dependencies:
    ```bash
    npm install
    ```
@@ -80,6 +80,24 @@ A premium, modern real estate portal built with Typescript + React with Vite for
 - **Add to Favourites**: On any property card, click the heart icon. The heart will fill to indicate it's saved.
 - **View Favourites**: Navigate to the "Favourites" page via the Navbar to see all your saved properties.
 - **Remove**: Clicking the heart icon again on the Favourites page or Dashboard will remove the property from your collection.
+
+---
+
+## API Documentation
+
+The project includes an interactive API documentation system powered by **Swagger (OpenAPI 3.0)**. 
+
+### Accessing the Docs
+1. Ensure the backend is running (`npm run dev`).
+2. Visit: [http://localhost:8080/api/docs]
+
+### Key Endpoints Overview
+- **Auth**: `/api/auth` (Register, Login, Logout, Refresh Token)
+- **Properties**: `/api/properties` (Browse Listings, Get Details)
+- **Favourites**: `/api/favourites` (Save and Manage properties)
+
+> [!NOTE]
+> All protected routes utilize **HTTP-only Cookies** for secure authentication. To test these in the Swagger UI, simply use the **Login** endpoint first to establish a session; your browser will automatically handle the session for subsequent requests.
 
 ## Tech Stack
 

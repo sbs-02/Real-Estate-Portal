@@ -8,7 +8,8 @@
     "build": "tsc",
     "dev": "tsx watch src/server.ts",
     "start": "node dist/server.js",
-    "seed:properties": "tsx src/seeds/seedProperties.ts"
+    "seed:properties": "tsx src/seeds/seedProperties.ts",
+    "docs": "swagger-jsdoc -c src/config/swaggerConfig.ts -o public/swagger.json && swagger-ui-express -u /public/swagger.json"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +24,8 @@
     "jsonwebtoken": "^9.0.3",
     "mongodb": "^7.1.0",
     "mongoose": "^9.3.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -32,6 +35,8 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.5.0",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.8",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
