@@ -25,7 +25,6 @@ const Favourites = () => {
 
     const handleFavouriteToggle = (propertyId: string, isFav: boolean) => {
         if (!isFav) {
-            // Removed — filter it out from the list
             setFavourites(prev => prev.filter(p => p._id !== propertyId));
         }
     };
