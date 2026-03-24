@@ -4,8 +4,8 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/authRoutes.js";
 import favouriteRoutes from "./routes/favouriteRoutes.js";
 import propertyRoutes from "./routes/propertyRoutes.js";
-import swaggerUi from 'swagger-ui-express';
-import swaggerSpec from './config/swaggerConfig.js';
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swaggerConfig.js";
 
 const app = express();
 
@@ -13,12 +13,12 @@ const app = express();
 app.use(
   cors({
     origin: process.env.CORS_ORIGIN || "http://localhost:5173", // Frontend URL
-    credentials: true,
+    credentials: false,
   }),
 );
 
 //For Swagger Documentation
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(express.json());
 app.use(cookieParser()); //For storing tokens in cookies
