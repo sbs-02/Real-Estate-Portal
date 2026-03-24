@@ -8,11 +8,7 @@ const options: swaggerJSDoc.Options = {
       version: "1.0.0",
       description: "API for the Real Estate Buyer Portal",
     },
-    servers: [
-      {
-        url: "https://real-estate-portal-backend.vercel.app/api",
-      },
-    ],
+    servers: [{ url: "http://localhost:8080/api" }],
     components: {
       securitySchemes: {
         cookieAuth: {

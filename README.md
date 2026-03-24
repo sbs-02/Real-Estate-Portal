@@ -89,7 +89,9 @@ The project includes an interactive API documentation system powered by **Swagge
 
 ### Accessing the Docs
 
-- **Production Environment:** Visit the live deployed docs at [https://real-estate-portal-backend.vercel.app/api](https://real-estate-portal-backend.vercel.app/api).
+- **Local Environment:** Ensure the backend is running (`npm run dev`) and visit [http://localhost:8080/api/docs](http://localhost:8080/api).
+
+![Swagger](SwaggerUI.png) ![Swagger](SwaggerUi2.png)
 
 ### Key Endpoints Overview
 
