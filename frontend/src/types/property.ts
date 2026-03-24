@@ -24,3 +24,9 @@ export interface PropertiesResponse {
     totalPages: number;
   };
 }
+
+export interface Favourite {
+  _id: string;
+  userId: string;
+  propertyId: Property;
+}

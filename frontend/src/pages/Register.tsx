@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import AuthLayout from '../layouts/AuthLayout';
-import api from '../api/axiosInstance';
-import { useAuthStore } from '../context/authStore';
-import toast from 'react-hot-toast';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import AuthLayout from "../layouts/AuthLayout";
+import api from "../api/axiosInstance";
+import { useAuthStore } from "../context/authStore";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { setUser } = useAuthStore();
   const navigate = useNavigate();
@@ -17,12 +18,17 @@ const Register = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await api.post('/auth/register', { name, email, password });
+      const { data } = await api.post("/auth/register", {
+        name,
+        email,
+        password,
+      });
       setUser(data.user);
-      toast.success('Registration successful!');
-      navigate('/dashboard');
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Registration failed');
+      toast.success("Registration successful!");
+      navigate("/dashboard");
+    } catch (error: unknown ) {
+      if (axios.isAxiosError(error))
+      toast.error(error.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -37,12 +43,16 @@ const Register = () => {
       <div className="space-y-8">
         <div className="space-y-1">
           <h2 className="text-2xl font-bold text-white">Create Account</h2>
-          <p className="text-brand-muted text-sm">Start your property journey today</p>
+          <p className="text-brand-muted text-sm">
+            Start your property journey today
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-brand-muted">Full Name</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
+              Full Name
+            </label>
             <input
               type="text"
               required
@@ -54,7 +64,9 @@ const Register = () => {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-brand-muted">Email</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
+              Email
+            </label>
             <input
               type="email"
               required
@@ -66,7 +78,9 @@ const Register = () => {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-brand-muted">Password</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
+              Password
+            </label>
             <input
               type="password"
               required
@@ -82,13 +96,16 @@ const Register = () => {
             disabled={loading}
             className="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-brand-light transition-all duration-200 disabled:opacity-50 text-sm"
           >
-            {loading ? 'Creating Account...' : 'Create Account'}
+            {loading ? "Creating Account..." : "Create Account"}
           </button>
         </form>
 
         <p className="text-center text-brand-muted text-sm">
-          Already have an account?{' '}
-          <Link to="/login" className="text-white font-semibold hover:underline">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="text-white font-semibold hover:underline"
+          >
             Sign In
           </Link>
         </p>

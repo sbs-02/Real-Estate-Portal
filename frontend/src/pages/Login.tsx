@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import AuthLayout from '../layouts/AuthLayout';
-import api from '../api/axiosInstance';
-import { useAuthStore } from '../context/authStore';
-import toast from 'react-hot-toast';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import AuthLayout from "../layouts/AuthLayout";
+import api from "../api/axiosInstance";
+import { useAuthStore } from "../context/authStore";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { setUser } = useAuthStore();
   const navigate = useNavigate();
@@ -16,12 +17,13 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await api.post('/auth/login', { email, password });
+      const { data } = await api.post("/auth/login", { email, password });
       setUser(data.user);
-      toast.success('Welcome back!');
-      navigate('/dashboard');
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || 'Login failed');
+      toast.success("Welcome back!");
+      navigate("/dashboard");
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error))
+        toast.error(error.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -36,12 +38,16 @@ const Login = () => {
       <div className="space-y-8">
         <div className="space-y-1">
           <h2 className="text-2xl font-bold text-white">Sign In</h2>
-          <p className="text-brand-muted text-sm">Enter your credentials to continue</p>
+          <p className="text-brand-muted text-sm">
+            Enter your credentials to continue
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-brand-muted">Email</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
+              Email
+            </label>
             <input
               type="email"
               required
@@ -53,7 +59,9 @@ const Login = () => {
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold uppercase tracking-wider text-brand-muted">Password</label>
+            <label className="text-xs font-semibold uppercase tracking-wider text-brand-muted">
+              Password
+            </label>
             <input
               type="password"
               required
@@ -69,13 +77,16 @@ const Login = () => {
             disabled={loading}
             className="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-brand-light transition-all duration-200 disabled:opacity-50 text-sm"
           >
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
 
         <p className="text-center text-brand-muted text-sm">
-          New to the Estate-Portal?{' '}
-          <Link to="/register" className="text-white font-semibold hover:underline">
+          New to the Estate-Portal?{" "}
+          <Link
+            to="/register"
+            className="text-white font-semibold hover:underline"
+          >
             Create an account
           </Link>
         </p>
