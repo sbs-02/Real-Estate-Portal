@@ -51,17 +51,19 @@ export const register = async (req: Request, res: Response) => {
     user.refreshToken = refreshToken;
     await user.save();
 
-    res.cookie("accessToken", accessToken, {
+    const cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" as const : "strict" as const,
+    };
+
+    res.cookie("accessToken", accessToken, {
+      ...cookieOptions,
       maxAge: 15 * 60 * 1000, // 15 mins
     });
 
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      ...cookieOptions,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -106,17 +108,19 @@ export const login = async (req: Request, res: Response) => {
     user.refreshToken = refreshToken;
     await user.save();
 
-    res.cookie("accessToken", accessToken, {
+    const cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: process.env.NODE_ENV === "production" ? "none" as const : "strict" as const,
+    };
+
+    res.cookie("accessToken", accessToken, {
+      ...cookieOptions,
       maxAge: 15 * 60 * 1000,
     });
 
     res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      ...cookieOptions,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
@@ -164,7 +168,7 @@ export const refreshToken = async (req: Request, res: Response) => {
         res.cookie("accessToken", accessToken, {
           httpOnly: true,
           secure: process.env.NODE_ENV === "production",
-          sameSite: "strict",
+          sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
           maxAge: 15 * 60 * 1000,
         });
 
@@ -194,8 +198,14 @@ export const logout = async (req: Request, res: Response) => {
       await user.save();
     }
 
-    res.clearCookie("accessToken");
-    res.clearCookie("refreshToken");
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" as const : "strict" as const,
+    };
+
+    res.clearCookie("accessToken", cookieOptions);
+    res.clearCookie("refreshToken", cookieOptions);
 
     res.json({ message: "Logged out successfully" });
   } catch (error) {
