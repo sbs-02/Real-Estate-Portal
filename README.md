@@ -88,8 +88,8 @@ A premium, modern real estate portal built with Typescript + React with Vite for
 The project includes an interactive API documentation system powered by **Swagger (OpenAPI 3.0)**. 
 
 ### Accessing the Docs
-1. Ensure the backend is running (`npm run dev`).
-2. Visit: [http://localhost:8080/api/docs]
+- **Local Environment:** Ensure the backend is running (`npm run dev`) and visit [http://localhost:8080/api/docs](http://localhost:8080/api/docs).
+- **Production Environment:** Visit the live deployed docs at [https://real-estate-portal-backend.vercel.app/api/docs](https://real-estate-portal-backend.vercel.app/api/docs).
 
 ### Key Endpoints Overview
 - **Auth**: `/api/auth` (Register, Login, Logout, Refresh Token)
