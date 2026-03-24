@@ -10,9 +10,13 @@ import swaggerSpec from "./config/swaggerConfig.js";
 const app = express();
 
 //For frontend and backend on different ports to communicate
+const corsOrigin = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.replace(/\/$/, "")
+  : "http://localhost:5173";
+
 app.use(
   cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:5173", // Frontend URL
+    origin: corsOrigin, // Frontend URL
     credentials: true,
   }),
 );
