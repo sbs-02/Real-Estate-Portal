@@ -69,7 +69,7 @@ A premium, modern real estate portal built with Typescript + React with Vite for
 
 ### 2. Property Discovery
 
-- **Search**: Use the top search bar on the Dashboard to find properties by title, city, or description.
+- **Search**: Use the top search bar on the Dashboard to find properties by title, city or property type.
 - **Advanced Filtering**: Click the Filter icon to open the panel:
   - **City**: Filter properties by specific locations.
   - **Price Range**: Set minimum and maximum price constraints.

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8080/api",
+  baseURL: "http://localhost:8080/api",
   // "https://real-estate-portal-backend.vercel.app/api",
   withCredentials: true,
 });
@@ -10,7 +10,7 @@ const api = axios.create({
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Handle global errors like 401 Unauthorized
+    // Handle global errors
     if (error.response?.status === 401) {
       // Potentially redirect to login or refresh token
       console.error("Unauthorized! Redirecting...");

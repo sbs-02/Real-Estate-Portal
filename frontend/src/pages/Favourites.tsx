@@ -16,7 +16,7 @@ const Favourites = () => {
       const { data } = await api.get("/favourites");
       const properties = data.map((fav: Favourite) => fav.propertyId);
       setFavourites(properties);
-    } catch (error) {
+    } catch (error: unknown) {
       console.log(error, "Could not fetch favourites");
       toast.error("Could not fetch favourites");
     } finally {
