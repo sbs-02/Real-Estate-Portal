@@ -1,8 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8080/api",
-  // "https://real-estate-portal-backend.vercel.app/api",
+  baseURL: "https://real-estate-portal-backend.vercel.app/api",
   withCredentials: true,
 });
 
