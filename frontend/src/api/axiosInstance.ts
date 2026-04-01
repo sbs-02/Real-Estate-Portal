@@ -1,7 +1,10 @@
 import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const api = axios.create({
-  baseURL: "https://real-estate-portal-backend.vercel.app/api",
+  baseURL: process.env.BASE_URL,
   withCredentials: true,
 });
 
